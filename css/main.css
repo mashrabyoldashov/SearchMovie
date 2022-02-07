@@ -1,0 +1,53 @@
+body {
+    margin-top: 115px;
+    background-color: #22254B;
+}
+
+.form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0px;
+    background-color: #373B69;
+    z-index: 100;
+}
+
+.label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    font-size: 30px;
+    color: #fff;
+    padding: 15px 25px;
+    width: 50%;
+    background-color: #373B69;
+    border: 1px solid #22254B;
+    border-radius: 40px;
+    outline: none;
+}
+
+.input::placeholder {
+    color: #fff !important;
+    font-size: 30px;
+}
+
+.input:focus {
+    background-color: #22254B;
+}
+
+.bi-search {
+    margin-left: -70px;
+    color: #fff;
+}
+
+.list {
+    gap: 30px;
+}
+
+.card {
+    background-color: #373B69;
+}
