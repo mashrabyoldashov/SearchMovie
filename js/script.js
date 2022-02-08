@@ -121,7 +121,6 @@ elPrevBtn.addEventListener("click", () => {
         let inputValue = elInput.value;
 
         page--
-
         renderApi(`${inputValue || filmName}`)
     }, 2000);
 })
