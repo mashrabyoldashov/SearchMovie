@@ -1,16 +1,27 @@
 let elForm = document.querySelector(".form");
 let elInput = document.querySelector(".input");
 let elList = document.querySelector(".list");
+let elPrevBtn = document.querySelector(".btn-1");
+let elNextBtn = document.querySelector(".btn-2");
+let elBtnList = document.querySelector(".button-list");
+let paginationBox = document.querySelector(".none");
+let filmName = "spider";
+let page = 1;
 
 const renderElement = function(obj, element) {
-    const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
-    const newArray = obj.results;
+    setTimeout(() => {
+        elForm.style.display = "block"
+        paginationBox.style.display = "block"
+        img.style.display = "none"
 
-    console.log(newArray);
+        const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+        const newArray = obj.results;
 
-    newArray.forEach(film => {
+        console.log(newArray);
 
-        const html = `
+        newArray.forEach(film => {
+
+            const html = `
         <li class="card" style="width: 18rem;">
         <img class="card-img-top" src="${IMG_PATH}${film.poster_path}" alt="Card image cap">
         <div class="card-body">
@@ -21,29 +32,120 @@ const renderElement = function(obj, element) {
         </li>
         `
 
-        element.insertAdjacentHTML('beforeend', html);
-    })
+            element.insertAdjacentHTML('beforeend', html);
+        })
+    }, 2000);
 }
 
 const renderApi = async function(country) {
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query="${country}`)
 
-    const data = await response.json()
+    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=${page}&query="${country}`)
+
+    const data = await response.json();
+
+    elBtnList.innerHTML = null;
+
+    for (let i = 1; i <= data.total_pages; i++) {
+        let newLi = document.createElement("li")
+        let newButton = document.createElement("button")
+
+        newButton.textContent = i;
+
+        newButton.dataset.buttonId = newButton.textContent;
+
+        newButton.setAttribute("class", "btn btn-primary");
+
+        elBtnList.appendChild(newLi);
+        newLi.appendChild(newButton);
+    }
+
+
+    if (page == 1) {
+        elPrevBtn.disabled = true;
+    } else {
+        elPrevBtn.disabled = false;
+    }
+
+    if (page == data.total_pages) {
+        elNextBtn.disabled = true;
+    } else {
+        elNextBtn.disabled = false;
+    }
 
     renderElement(data, elList);
     console.log(data);
 }
 
-renderApi("spider");
-
 elInput.oninput = () => {
-    let inputValue = elInput.value;
+    setTimeout(() => {
+        elForm.style.display = "none"
+        paginationBox.style.display = "none"
+        img.style.display = "block"
 
-    if (inputValue === "") {
-        renderApi("spider");
+        let inputValue = elInput.value;
+        page = 1;
+
+        elList.innerHTML = null;
+
+        if (inputValue === "") {
+            renderApi(`${filmName}`);
+        }
+
+        renderApi(`${inputValue}`)
+    }, 2000);
+}
+
+elNextBtn.addEventListener("click", () => {
+    setTimeout(() => {
+        elForm.style.display = "none"
+        paginationBox.style.display = "none"
+        img.style.display = "block"
+
+        elList.innerHTML = null;
+        let inputValue = elInput.value;
+
+        page++
+
+        renderApi(`${inputValue || filmName}`);
+    }, 2000);
+})
+
+elPrevBtn.addEventListener("click", () => {
+    setTimeout(() => {
+        elForm.style.display = "none"
+        paginationBox.style.display = "none"
+        img.style.display = "block"
+
+        elList.innerHTML = null;
+
+        let inputValue = elInput.value;
+
+        page--
+
+        renderApi(`${inputValue || filmName}`)
+    }, 2000);
+})
+
+elBtnList.addEventListener("click", (evt) => {
+
+    elForm.style.display = "none"
+    paginationBox.style.display = "none"
+    img.style.display = "block"
+
+    if (evt.target.matches(".btn-primary")) {
+
+        elList.innerHTML = null;
+
+        let inputValue = elInput.value;
+        let filmName = "spider";
+
+        let pageId = evt.target.dataset.buttonId;
+        page = pageId;
+
+        renderApi(`${inputValue || filmName}`)
+
     }
 
-    elList.innerHTML = null;
+})
 
-    renderApi(`${inputValue}`);
-}
+renderApi(`${filmName}`)
