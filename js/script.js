@@ -76,7 +76,10 @@ const renderApi = async function(country) {
     console.log(data);
 }
 
-elInput.oninput = () => {
+elForm.addEventListener("submit", (evt) => {
+
+    evt.preventDefault()
+
     setTimeout(() => {
         elForm.style.display = "none"
         paginationBox.style.display = "none"
@@ -88,12 +91,14 @@ elInput.oninput = () => {
         elList.innerHTML = null;
 
         if (inputValue === "") {
+            page = 1;
             renderApi(`${filmName}`);
         }
 
         renderApi(`${inputValue}`)
     }, 2000);
-}
+})
+
 
 elNextBtn.addEventListener("click", () => {
     setTimeout(() => {
