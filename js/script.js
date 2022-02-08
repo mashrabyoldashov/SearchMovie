@@ -80,23 +80,21 @@ elForm.addEventListener("submit", (evt) => {
 
     evt.preventDefault()
 
-    setTimeout(() => {
-        elForm.style.display = "none"
-        paginationBox.style.display = "none"
-        img.style.display = "block"
+    elForm.style.display = "none"
+    paginationBox.style.display = "none"
+    img.style.display = "block"
 
-        let inputValue = elInput.value;
+    let inputValue = elInput.value;
+    page = 1;
+
+    elList.innerHTML = null;
+
+    if (inputValue === "") {
         page = 1;
+        renderApi(`${filmName}`);
+    }
 
-        elList.innerHTML = null;
-
-        if (inputValue === "") {
-            page = 1;
-            renderApi(`${filmName}`);
-        }
-
-        renderApi(`${inputValue}`)
-    }, 2000);
+    renderApi(`${inputValue}`)
 })
 
 
