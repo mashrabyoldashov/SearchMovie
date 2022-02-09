@@ -16,7 +16,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 20px 0px;
+    padding: 20px 40px 20px 0px;
     background-color: #373B69;
     z-index: 100;
     display: none;
@@ -32,7 +32,8 @@ body {
     font-size: 30px;
     color: #fff;
     padding: 15px 25px;
-    width: 50%;
+    width: 100%;
+    max-width: 700px;
     background-color: #373B69;
     border: 1px solid #22254B;
     border-radius: 40px;
